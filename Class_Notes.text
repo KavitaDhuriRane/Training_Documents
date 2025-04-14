@@ -152,7 +152,7 @@ Introduction to DevOps :::
 		
 			Dev Environment
 			
-			Build Environment
+			Build Environment	-- Install the Build Tools
 			
 			Test Environments
 				- QA 
@@ -314,7 +314,7 @@ Introduction to DevOps :::
 			
 			AWS 	:  AWS Developer Tools - CodeCommit,CodeBuild,CodePipeline, etc......
 			
-			GCP 	:  DevOps Servifces 
+			GCP 	:  DevOps Services 
 			
 			
 	Azure DevOps Services ::: Az-400 - Azure DevOps Certification Code.
@@ -352,7 +352,6 @@ Introduction to DevOps :::
 Next :
 
 	Start with Azure DevOps Services - Azure Board
-
 
 
 #######################
@@ -779,4 +778,390 @@ Next ::
 				
 			
 		
+#######################
+Day 3 : 12th April 2025
+#######################			
 		
+	Azure Boards 
+	Azure Repos 
+	Azure Pipelines	
+	
+	
+	https://learn.microsoft.com/en-us/azure/devops/get-started/?view=azure-devops
+	
+	Login to Azure Portal :
+	
+		- Access Azure DevOps Services
+		
+			- Create Azure DevOps Organization1			Application Level
+				
+				- Azure DevOps Project1 				Micro-Service1
+				
+					- Create Azure Boards,Repos,Pipelines,Test,Artifacts...
+	
+				- Azure DevOps Project2 				Micro-Service2				
+				
+					- Create Azure Boards,Repos,Pipelines,Test,Artifacts...
+	
+			- Create Azure DevOps Organization2
+				
+				- Azure DevOps Project1 
+				
+					- Create Azure Boards,Repos,Pipelines,Test,Artifacts...
+	
+				- Azure DevOps Project2 
+				
+					- Create Azure Boards,Repos,Pipelines,Test,Artifacts...		
+					
+					
+		Azure Pipeline :
+		
+			- Azure Build Pipeline 
+			
+				- Perform Application Build in the Non-Prod Environments
+			
+			- Azure Release Pipeline 
+			
+				- Promote the Changes from Non-Prod to Prod Environment
+		
+			- Build Environments :
+			
+				- Managed Agents 
+				
+				- Self-Hosted Agents 
+				
+				
+			Build Environment (VM)	-- Install the Build Tools		
+				
+				- Self Hosted 
+					- Manually Create, Install the required Build Tools and maintain the Agent 
+					- This can be reusable 
+					
+					Agent Pool:
+						- Self Hosted Agent1 - Java Application Build --> Jdk,maven 
+						- Self Hosted Agent2 - Java Application Build --> Jdk,maven 
+						- Self Hosted Agent3 - Java Application Build --> Jdk,maven 
+					
+				- Azure Managed Agent 
+				
+					Agent Pool:
+						- Managed Hosted Agent1 - Java Application Build --> Jdk,maven 
+						- Managed Hosted Agent2 - Java Application Build --> Jdk,maven 
+						- Managed Hosted Agent3 - Java Application Build --> Jdk,maven 	
+		
+			Service Connections - Used to Access the external services 	
+	
+	
+	Azure Boards :
+	
+		- Based on the Project.
+		
+	Azure DevOps Project Types :
+	
+		- Basic 
+		- Agile 
+		- Scrum 
+
+		Basic Project Process:
+		
+			EPIC	
+				issue1
+					task1
+					task2
+				issue2
+					task 
+					
+		Agile Project Process:
+		
+			EPIC 					- Long Term Project Objective - Migrate 500+ Applications to Cloud
+				Feature - Q1		- ?
+					UserStory1	
+						task1
+						task2
+						bug2						
+					UserStory2
+				Feature - Q2
+					UserStory1 
+					UserStory2		
+				Feature - Q3
+					UserStory1 
+					UserStory2	
+				Feature - Q4
+					UserStory1 
+					UserStory2						
+
+		SCRUM Project Process:
+		
+			EPIC 					- Long Term Project Objective - Migrate 500+ Applications to Cloud
+				Feature - Q1
+					Product Backlog Item1	
+						task1
+						task2
+						bug2						
+					Product Backlog Item2
+				Feature - Q2
+					Product Backlog Item1
+					Product Backlog Item2				
+		
+		
+		
+		
+#######################
+Day 4 : 13th April 2025
+#######################		
+		
+		
+		https://aka.ms/azpipelines-parallelism-request
+		
+		Azure DevOps Projects along with the Build & Release pipelines 
+		
+		
+		
+		
+		- Agent --> Build Environment
+		
+		- Git Cli Commands 
+		
+		- Containerization 
+		
+			- Docker 
+			- Kubernetes
+		
+
+		
+		- Build & Release Pipeline : 
+		
+			Create/Written using *.yaml Scripts 
+			
+		- CICD Azure Pipeline Service are the Build Orchestration Tool 
+		
+		
+	
+		
+		- Agent --> Build Environment :::
+		
+			
+	Environments:
+	
+		Non-Prod Environments									Production Environments
+		
+			Dev Environment
+			
+			Build Environment	-- Install the Build Tools
+			
+			Test Environments
+				- QA 
+				
+				- UAT 					=============>				Production Servers 	
+
+				
+		- CI CD 
+		
+			CI --> Build Environment (VM)	-- Install the Build Tools	::: Microsoft Hosted Machines / Self Hosted Machines 
+			
+					- Create a Azure Virtual Machine :: Self Hosted Machines 
+					
+					- Install the Required Build Tools
+					
+						Java based web applications 							| 					.Net Application Build 
+						
+							git 																		git 
+							maven																		.Net SDK 
+							
+							Docker 																		Docker 
+								- Create Application Images 
+								- Publish the Application images to Container Registry 
+					
+					
+					
+					
+			CD --> Target Server (VM) using to deploy the Services
+					
+					- Create a Azure Virtual Machine 
+					
+					- Install the Required Tools to execute the Application Services		
+			
+			
+			
+		
+		
+		- Git Cli Commands 
+		
+			- Install git in Local Machine & VS Code 
+	
+			Misc Git Topics :::		
+			
+				- git file Workflow 
+				
+				- git installation 
+				
+				- Create Local Repository 
+
+				- .gitignore					# Is used ignore the files from tracking!
+				
+				- Misc. git command 		
+				
+				- Working with git config 
+				
+				- Working with undo - unstage 
+				
+				- Undo Commits - git reset / git revert 
+				
+				- Git Branches 
+				
+				- Branch creation
+				
+				- Merge 
+				
+				- Handle Merge Conflicts 
+				
+				- Rebase / squash 
+				
+				- Handle Local and Repositories 
+				
+					- git Push/Pull Commands 
+			
+		
+		
+		Use the  Remote Git Repositories :
+		
+			- Migrated/Import from GitHub Repositories  
+			
+			- New Azure Repositories
+		
+	
+	Pull Request :::
+	
+		- Created by the Developers Developers, it will be submitted for review and approval to merge to main branch.
+		
+		
+		
+	VCS : Version Control System :
+	
+		- Track the Changes 
+		- used to Version Control the Changes 
+		
+		
+	Distributed VCS :
+	
+		GIT is the Distributed VCS 
+		
+			- Azure Repos 
+			- GitHub 
+			- GitLab
+			- BiBucket 
+			- AWS CodeCommit 
+			
+			
+				- Local Machine	(Device)																		Remote Server (Device)
+				
+					- Repos created in the local machine(Developers' system)										Remote GIT Repositories
+					
+					
+					
+					https://EduDevOps1204@dev.azure.com/EduDevOps1204/Proj3/_git/TestRepo2
+					
+					
+			git clone https://EduDevOps1204@dev.azure.com/EduDevOps1204/Proj3/_git/TestRepo2
+			
+			
+			git clone			- To Copy/Clone the entire Remote Repo to Local Machine 
+												- Enable user access to that repo using PAT.
+												- 
+				git clone https://EduDevOps1204@dev.azure.com/EduDevOps1204/Proj3/_git/TestRepo2
+				
+			
+			git push 			- To Push the changes from local repo to remote repository
+			
+			git pull 			- 
+			
+			
+			git init 			- Used to Initialize a git repo
+								- It create default branch - main/master
+								- It create .GIT Directory 
+				
+			
+			
+			
+		
+		
+		git push 		-- c1		
+		
+		git pull -- Bring the latest changes from the remote repository to the local machine
+					Git Pull will keep the local repo. in-sync with remote repo.
+					
+					as a best practise issue git pull before git push. 
+					
+		
+		
+		
+		git push --- c2 
+		
+		
+		git rebase!
+		
+		
+		git switch -c <new_branch_name>		--> Create and switch to new branch
+		
+		git switch <existing_branch_name> 	--> to Switch beteen the branches 
+		
+	
+	- Containerization 
+			- It is a process of packaging the application along with its dependencies.
+			
+		Containers vs Virtual Machines 
+		
+		Virtual Machines (VM) :
+		
+			- VMs are Hardware level Virtualization 
+			
+			- VMs are created using Hypervisor 
+			
+			- VMs are used to execute the Operating System and its applications
+			
+			- VMs will be up and running even if there no active task or application
+		
+			- VMs consume more time and space to start the applications
+		
+		
+		
+		Containers :
+	
+		
+			- Containers are OS level Virtualization 
+			
+			- Containers are created using Container-Engine 
+			
+			- Containers are used to execute the task/AppDynamics. NOT Operating System!
+			
+			- Containers will immediately go to exit state, if there no active task or application
+		
+			- Containers consume less time and space to start the applications
+			
+			- Containers are used to reduce the No. of VMs. We cannot completely eliminate VMs
+			
+	
+	
+	
+		Terminologies :
+		
+			- Container Engine 
+			
+			- Container Images
+			
+			- Containers
+			
+			- Container Registry 
+			
+			- Container Repositories
+			
+			
+		Install and config container Engine
+		
+		Docker Container Engine 
+		
+		Docker CLI Commands 
+			
+			
+		- Docker 
+		- Kubernetes
