@@ -1165,3 +1165,464 @@ Day 4 : 13th April 2025
 			
 		- Docker 
 		- Kubernetes
+
+		
+#######################
+Day 5 : 19th April 2025
+#######################	
+
+
+	Build Environment :::
+	
+	
+	
+	git Cherrypick :
+	
+	git cherrypick <commit_id>
+	
+	git cherrypick <commit_id1> <commit_id2>
+	
+	- As per the best practise git cherrypick is not recommended to use.
+	
+	
+	Containers :
+	
+		- Deploy the Containerized application using Kubernetes :
+		
+	
+	- Containerization 
+			- It is a process of packaging the application along with its dependencies.
+
+			
+	Use Cases :::
+	
+	- Infra-Structure Perspective :
+	
+		- To reduce the no. of VMs 
+		
+			- VM 
+				- Install Docker 
+					- C1		- Java 
+					- C2 		- .Net 
+					- C3		- Python 
+					- C4		- Ruby 
+					- C5 		- Angular/NodeJS
+					
+					
+		- Jenkins_Master(VM) 	( Create and Manage the Jenkins CICD Pipeline Projects)
+		
+								(Perform Application Builds)
+					- Jenkins_Slave1(VM)		- Java 		
+					- Jenkins_Slave2(VM)		- .Net 			
+					- Jenkins_Slave3(VM)		- Python 	
+					- Jenkins_Slave4(VM)		- Ruby 	
+					- Jenkins_Slave5(VM) 		- Angular/NodeJS	
+	
+		- Jenkins_Master(VM) 	( Create and Manage the Jenkins CICD Pipeline Projects)	
+			
+			Jenkins_Slave1(VM) 
+				- Install Docker Engine 
+					- Create Docker Container1 - Java
+					- Create Docker Container2 - .Net 
+					- Create Docker Container3 - Python 
+					- Create Docker Container4 - Ruby 
+					- Create Docker Container5 - Angular/NodeJS					
+	
+	
+
+	
+	- Development/Deployment Perspective :
+	
+		- It is a process of packaging the application along with its dependencies.
+		
+		Scenario 1 :
+		
+			- Developer :
+				- java program in my dev machine 
+					- jdk 11, maven 				= Build the java program 
+					- mywebapp.war 					- # artifact get created
+					- Web Application Server(Tomcat/Nginx/httpd)
+					- Unit Testing --- (jdk_11, tomcat_8.5)				
+					- Deploy mywebapp.war to the Target Server 
+					
+				- Using Docker Containerization :
+				
+					- java program in my dev machine 
+						- jdk 11, maven 				= Build the java program 
+						- mywebapp.war 					- # artifact get created
+						- Web Application Server(Tomcat/Nginx/httpd)
+						- Unit Testing --- (jdk_11, tomcat_8.5)				
+						- Use Docker Cli Commands to  package the application :
+						
+							Create package : (mywebapp.war | jd11,tomcat_8.5) ==> mywebapp_img
+							
+							- Publish images to dockerhub container registry
+					
+					
+					
+					
+				- QA (VM)		mywebapp.war  
+							- Using Docker CLI Commands, download the application Images to target servers.
+							
+							(mywebapp_dependencies | jd11,tomcat_8.5) ==> mywebapp_img
+							
+							- Using mywebapp_img Create Container and run the testing
+							
+							
+					- jdk_8, tomcat_8
+					
+					- Used the application image: mywebapp_img.
+				
+				- UAT 
+				
+				- PROD 
+	
+			
+			
+	
+	
+		
+		Terminologies :
+		
+			- Container Engine 				# Is used to Create and manage the containers
+			
+			- Container Images				# Is a static file that defines the dependencies
+											# It is non-executable 
+											# It composed of various Layers that defines the incremental changes.
+											
+			
+			- Containers					# Is an executable unit of Container Image.
+											
+
+			- Container Registry 			# Used to save the snapshots of the Container Images.			
+			
+			- Container Repositories		# Is a subset of Container  Registry
+			
+													At Enteprise Level : We create DockerHub/ACR Account
+													
+													`- Container Registry
+															- Container Repositories
+			
+			
+		working directory 				Azure/GitHub Repo 					Application Snapshots 					Container Registry 
+																			Jfrog Artifactory/ AzArtifacts			DockerHub/ACR
+		
+		index.java 							index.java_v1.0		==> 		mywebapp.war_SNAP_SHOT_v1.0			==>	mywebapp_img:v1.0
+		index.java 							index.java_v1.1		==> 		mywebapp.war_SNAP_SHOT_v1.1			==>	mywebapp_img:v1.1
+		index.java 							index.java_v1.2		==> 		mywebapp.war_SNAP_SHOT_v1.2			==>	mywebapp_img:v1.2
+		index.java 							index.java_v1.3		==> 		mywebapp.war_SNAP_SHOT_v1.3			==>	mywebapp_img:v1.3
+		
+		
+		Docker Container Image :
+		
+			- Docker Commit 
+			
+			- Docker Build
+			
+						Instructions to create various layers of image
+		
+		
+		Install and config container Engine
+		
+			https://portal.azure.com/#home
+			
+				- Search for Virtual Machine
+				
+				- Connect to VM using MobaXterm/putty(SSH Agent)
+					- Host_Name : public_ip address 
+					- User_Name : azureuser
+					- Credential: private key file --> *.pem
+		
+		AppBuild_Server:
+		
+			- git 
+			
+			- maven 	==> Build Java Application 
+			
+			- docker 
+			
+		- Connect to VM using MobaXTerm 
+		
+		- sudo -i
+		
+		- git --version 
+		
+		- apt install git -y 
+				
+		- apt install maven -y 
+		
+		- apt install docker.io -y 
+		
+		Docker CLI Commands :
+		
+			- docker --version 
+			
+			- docker images 		# List the Images 
+			
+			- docker ps 			# List the Active/Running Container 
+			
+			- docker ps -a 			# List all the Active/Stopped Container
+	
+			- docker pull <image_name>
+			
+			- docker run <image_name>	# To Create and run a Container based on the image name.
+			
+			Three Modes of Execution :
+			
+			1. Foreground/Attached Mode 		# Hold the Terminal.
+			
+					docker run <image_name>		# Default Mode of Execution 
+			
+			2. Background/Detached Mode 
+			
+					docker run -d <image_name> 
+			
+			3. Interactive Mode 
+			
+					docker run -it <image_name> bash
+					
+			
+			docker exec -it <container_id> bash		# Login to Running Container.
+			
+			
+#######################
+Day 6 : 20th April 2025
+#######################		
+
+
+		docker start <container_id>
+		
+		docker stop <container_id>
+		
+		Create Docker Images :
+		
+			- Docker Commit :
+			
+				- It is used create an Container Image based on the existing Container Reference.
+				- Create Server Templates 
+				- Reusable
+				
+				Syntax: 
+				
+					docker commit <Container_id> <DockerHub_Repository_Name>/<New_Docker_Image_Name>:<tag_Number>
+					
+				Eg.: 
+				
+					docker commit 4acef096ea94 loksaieta/edu-az-appbuildtemplate1:v1.0
+				
+				
+			Publish the Image to Container Registry :
+			
+				- Create PAT in DockerHub 
+			
+				- docker login 
+				
+					Eg.: 
+					
+					docker login -u loksaieta
+					
+						
+				- docker push 
+				
+					Eg.: 
+					docker push loksaieta/edu-az-appbuildtemplate1:v1.0
+				
+				docker pull loksaieta/edu-az-appbuildtemplate1:v1.0
+				
+				
+				
+			- Docker Build	::::
+			
+				- It is used to Create a container Image based on the Dockerfile references
+				- Dockerfile is a static file that define the properties of the Container
+				- It composed of various instructions.
+				- This Dockerfile will be created by the developers 
+				- Dockerfile will be part of the source-code repository & used in cicd pipeline, during automate builds.
+				
+			How to Create a Dockerfile ?
+			
+			IAC - Server Templating / Configuration Management / Infra-Structure Provisioning 
+					Docker/Vagrant		Ansible/Chef/Puppet			Terraform/CFT/ARM
+			
+			FROM 		# Used to Identify the Base Image.
+			RUN 		# Excute the Package - apt 
+			
+			
+			vi Dockerfile 
+			
+			FROM ubuntu
+			RUN apt update -y
+			RUN apt install git -y 
+			RUN apt install maven -y 
+
+			Syntax: 
+				
+				docker build -t <DockerHub_Repository_Name>/<New_Docker_Image_Name>:<tag_Number> .
+
+			Eg.: 
+			
+				docker build -t loksaieta/edu-az-appbuildtemplate2 .			# "." Denotes the Dockerfile reference.
+																				# Run the Docker Build Command from path of Dockerfile 
+																				
+																				
+			Dockerfile Instructions :::
+			
+			
+				FROM 			# Used to Identify the Base Image.
+				
+				RUN 			# Excute the Package - apt  
+				
+				COPY 			# To copy the file from the host volume to the container volume 
+				
+				CP				# To copy the file within the container volumes
+				
+				ADD 			# To copy the file from the host volume to the container volume as well as from the external URLs
+									Eg.: wget <web-url>
+									
+				WORKDIR			# Setup the Current Working Directory 
+				
+				ENV 			# Setup the Environment Variable - PATH - JAVA_HOME 
+				
+				ARG 			# Pass the Input Parameters 
+				
+				CMD 			# It is used set the start-up task to the container.
+								# It can be modified at run-time. 
+																					
+				ENTRYPOINT		# It is used set the start-up task to the container.
+								# It cannot be modified at run-time.	
+
+				EXPOSE			# To Setup the Container Port
+				
+			
+	Use Case 1 :
+	
+	Setup - Self-Hosted Build Agent :
+		
+		Launch a VM 
+		
+		git --version 
+		
+		apt install openjdk-17-jre -y		
+
+		apt install maven -y
+		
+		- Perform Application Build -- 
+		
+			- SCM Checkout 			https://github.com/Edu-az400-apr0525/java-webapp-project
+			
+			- Application Build 	--> Compile the Source Code / Perform Automated Unit Testing / Create Artifacts 
+			
+				Maven Goals :
+				
+					- mvn compile 	# Just compile the source-code
+				
+					- mvn test 		# To compile the source-code & Perform Automated Unit-Testing 
+					
+					- mvn package 	# To Compile,test and create artifacts in target folder
+					
+					- mvn clean		# To clean-up the target folder 
+					
+			- Application Image Build 		--> Create an Application Image using the Application Artifacts
+			
+			Dockerfile :
+			
+			FROM tomcat:8.0				
+			COPY target/*.war /usr/local/tomcat/webapps
+			EXPOSE 8089		
+			
+			
+			docker build -t loksaieta/edu-az-javawebapp1 .
+
+				
+			Application Access ::
+
+			
+		Container Orchestration using Kubernetes :::
+		
+			Micro-Service 
+			
+			3-tier Application Architecture 
+				
+			
+			<external_IP_Addr of VM> : 8080
+			
+		Port Mapping / Port Binding :::
+		
+			docker run -it -p 8089:8080 loksaieta/edu-az-javawebapp1
+			
+			-p host_port:container_port 
+		
+		
+		
+		Azure Disk / AzArtifacts / AzPipeline-Volumes 
+		
+		
+		Volumes :::
+		
+		docker volume :::
+		
+		docker volume create edu-az-vol 
+		
+		docker volume inspect edu-az-vo1
+		
+		docker run -it --mount source=edu-az-vo1,destination=/edu-az-vo1 ubuntu bash
+		
+		Persistant Volume :
+		
+		Containers --> run stateless applications
+		
+		3 - Tier Application Architecture :::
+		
+		User Sign_IN Services 
+		
+		- Front-End Layer 	# User Interface 	- C1 
+		
+		- Application Layer # Business Logic 	- C2 
+		
+		- Back-End Layer 	# DataBase 			- C3 		==> 1 TB of Volume (External Storage Server)
+		
+		
+		
+		Container Orchestration :::
+		
+			- Docker Swarm  
+			
+			- Kubernetes 
+			
+				- Open-Source Container Orchestration Tool 
+				- To ensure high availability of Application running thru container by creating the replicas.
+				- It is meant for Micro-Service Based Application Architecture
+				- It support Auto-Scaling, Load Balancing, Self-Healing 
+				
+				- pods --> Smallest/Atomic unit of task 
+							Pod is used to execute the container
+				
+				- Kubernetes Controller Manager :
+				
+				
+			Kubernetes Architecture :::
+				
+			Managed Services :
+			
+			Azure : ACS / ACR / AKS 
+				
+				
+			3 - Tier Application Architecture :::
+		    
+		    User Sign_IN Services 
+		    
+		    - Front-End Layer 	# User Interface 	- C1.1,C1.2,C1.3 
+		    
+            - Application Layer # Business Logic 	- C2.1,C2.2,C2.3  
+            
+            - Back-End Layer 	# DataBase 			- C3.1,C3.2,C3.3 
+			
+Next :
+
+	Az Pipelines :
+	
+		- Az Build Pipelines 
+		
+		- Az Release Pipelines
+		
+		
