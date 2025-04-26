@@ -1626,3 +1626,204 @@ Next :
 		- Az Release Pipelines
 		
 		
+
+########################
+Day 7 : 26th April 2025
+########################	
+
+
+	- Azure DevOps Project 
+	
+	- Azure Repository 
+	
+		- Import https://github.com/Edu-az400-apr0525/java-webapp-project
+		
+	- Create azure Pipeline :
+	
+		- MS Managed Agent 
+			- Cost effective
+		
+		- Self Hosted Agent -- Create a VM - (Azure Cloud/AWS/On-Prem) - Build_Server(git,maven,docker)
+			- User gets the full control of the server and reusability.
+			
+			- Configure Azure Agent. 
+			
+			
+	- Docker Cli Commands :
+		- Dockerfile 
+		- Docker Build Command 
+		
+	- Kubernetes :
+		- Deploy the Containerized Services
+		
+	- Prepare the Target Environments -- Create a VM - (Azure Cloud/AWS/On-Prem) -- to Execute the Micro-Services 
+	
+		
+			- Docker Swarm  
+			
+				- Docker Swarm is meant only for Docker Containers 
+				- Docker Swarm - to ensure high availability of Application running thru container by creating the replicas.
+				- It will not support Auto-Scaling, Load Balancing, Self-Healing 
+				
+				
+			- Kubernetes 
+			
+				- Open-Source Container Orchestration Tool 
+				- To ensure high availability of Application running thru container by creating the replicas.
+				- It is meant for Micro-Service Based Application Architecture
+				- It support Auto-Scaling, Load Balancing, Self-Healing 
+				
+				- pods --> Smallest/Atomic unit of task 
+							Pod is used to execute the container
+				
+				- Kubernetes Controller Manager :
+				
+			Kubernetes Architecture :::
+				
+			Managed Services :
+			
+			Azure : ACS / ACR / AKS 
+			
+			
+			SCM Checkout 
+			
+			
+		Build Environment --> Node/Agent 
+		
+			Agent pool:						# It is a collection of Build Agents 
+				- Build Agents/VM/Server  
+				
+				
+				
+			Agent pool : (JavaAgentPool1)
+				Build-Server/Agent/Node/VM1 	--> 	1 
+				Build-Server/Agent/Node/VM2 
+				Build-Server/Agent/Node/VM3 
+				Build-Server/Agent/Node/VM4 
+				
+				
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+#trigger:
+#- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+
+
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'pom.xml'
+    mavenOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: default
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    goals: 'package'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '**/*.war'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+
+
+	Configure Self-Hosted Azure Agent :
+	
+		- Self Hosted Agent -- Create a VM - (Azure Cloud/AWS/On-Prem) - Build_Server(git,maven,docker)
+			- User gets the full control of the server and reusability.
+			
+			- Configure Azure Agent. 
+			
+				- Login to Azure DevOps Portal 
+				
+				- Create Azure User PAT 		
+				
+				dafsdf
+				
+				
+				javaappbuildsap1
+				
+				
+				myjavabuildagent1
+
+				
+				- Create an Agent Pool 
+				
+				- Create an Agent in that Agent Pool 
+				
+					Start the Agent to listen to the Azure Pipelines.  	3GB RAM 2CPU -> 1800 INR / month  
+					
+	
+Create the agent
+~/$ mkdir myagent && cd myagent
+~/myagent$ tar zxvf vsts-agent-linux-x64-4.254.0.tar.gz
+Configure the agentDetailed instructions
+~/myagent$ ./config.sh
+Optionally run the agent interactively
+If you didn't run as a service above:
+~/myagent$ ./run.sh
+
+
+####
+mkdir myagent && cd myagent
+
+wget https://vstsagentpackage.azureedge.net/agent/4.254.0/vsts-agent-linux-x64-4.254.0.tar.gz
+
+tar zxvf vsts-agent-linux-x64-4.254.0.tar.gz
+
+./config.sh
+
+Y
+
+https://dev.azure.com/LoksaiTrainingOrg/
+
+>> End User License Agreements:
+
+Building sources from a TFVC repository requires accepting the Team Explorer Everywhere End User License Agreement. This step is not required for building sources from Git repositories.
+
+A copy of the Team Explorer Everywhere license agreement can be found at:
+  /home/ubuntu/myagent/license.html
+
+Enter (Y/N) Accept the Team Explorer Everywhere license agreement now? (press enter for N) > Y
+
+>> Connect:
+
+Enter server URL > https://dev.azure.com/LosdfsdfsdfsdfOrg/
+Enter authentication type (press enter for PAT) >
+Enter personal access token > **sdfsdfsdfsdfsd****************************************
+Connecting to server ...
+
+>> Register Agent:
+
+Enter agent pool (press enter for default) > javaappbuildsap1
+Enter agent name (press enter for ip-172-31-0-90) > myjavabuildagent1
+Scanning for tool capabilities.
+Connecting to the server.
+Successfully added the agent
+Testing agent connection.
+Enter work folder (press enter for _work) >
+2025-04-26 17:41:15Z: Settings Saved.
+ubuntu@ip-172-31-0-90:~/myagent$
+
+####
+
+
+ubuntu@ip-172-31-0-90:~/myagent$ ./run.sh
+Scanning for tool capabilities.
+Connecting to the server.
+2025-04-26 17:45:37Z: Listening for Jobs
+
