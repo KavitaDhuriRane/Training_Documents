@@ -2376,3 +2376,255 @@ Next :
 	https://learn.microsoft.com/en-us/credentials/certifications/exams/az-400/
 	
 	https://azuredevopslabs.com/
+
+
+
+	
+######################
+Day 10 : 05th May 2025
+######################
+
+	Integrate Docker and Kubernetes in Azure Pipelines 
+
+	Kubernetes Services :
+	
+		- NodePort Service			# Expose the Kubernetes Pods to Internet 
+									# NodePort range : 30000 to 32767		
+									
+		- ClusterIP Service			# It is default service used to access the pods internally
+		
+		- Load Balancer Service		# It is external Service Service Provider 
+		
+		- Ingress Controller 
+		
+	Monitoring 
+	
+	https://learn.microsoft.com/en-us/azure/devops/pipelines/?view=azure-devops
+		
+	https://learn.microsoft.com/en-us/credentials/certifications/exams/az-400/
+	
+	https://azuredevopslabs.com/
+	
+	
+	Service Connections - Used to Enable the external Services/Resource to Azure DevOps Projects
+	
+		- Service Connection to DockerHub Registry & Kubernetes Master.
+		
+		
+		
+Dockerfile :
+
+FROM tomcat:8.0				
+COPY target/*.war /usr/local/tomcat/webapps
+EXPOSE 8080
+
+
+kubedeploy.yaml :
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loksai-eta-deploy
+  labels:
+    app: loksai-eta-deploy-lbl
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: loksai-eta-app
+  template:
+    metadata:
+      labels:
+        app: loksai-eta-app
+    spec:
+      containers:
+      - name: loksai-eta-container
+        image: loksaieta/loksai-eta-app
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loksai-eta-np-service
+  labels:
+    app: loksai-eta-app
+spec:
+  selector:
+    app: loksai-eta-deploy-lbl
+
+  type: NodePort
+  ports:
+  - nodePort: 30001
+    port: 8080
+    targetPort: 8080
+
+
+		    User Sign_IN Services 
+		    
+		    - Front-End Layer 	# User Interface 	- Pod1.1,Pod1.2,Pod1.3 
+		    
+            - Application Layer # Business Logic 	- Pod2.1,Pod2.2,Pod2.3  
+            
+            - Back-End Layer 	# DataBase 			- Pod3.1,Pod3.2,Pod3.3 
+			
+
+
+	Kubernetes Ingress controller 
+	
+	
+	www.google.com 					==> Load Balancer 
+	
+	www.google.gmail.com			==> Host Based Routing
+
+	www.google.translate.com
+	
+	www.google.drive.com 
+	
+Ingress Controller :
+		
+	Simple Routing 					www.domain-url1.com			=> Static web pages 
+	
+	Host-Based Routing 
+	
+		www.google.com 					==> Load Balancer 
+		
+		www.google.gmail.com			==> Host Based Routing
+
+		www.google.translate.com
+		
+		www.google.drive.com 
+	
+	
+	Path-Based Routing 
+	
+		www.gmail.com 
+		
+		www.gmail.com/inbox 
+		
+		www.gmail.com/sent 
+		
+		www.gmail.com/trash 
+		
+		
+NodePort Service ==> Expose the Pods to Internet
+
+
+
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+#trigger:
+#- master
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- name: envi
+  value: qa
+
+steps:
+
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'pom.xml'
+    mavenOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: default
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    goals: 'package'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '**/*.war'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'edu-az-400-dsc1'
+    repository: 'loksaieta/loksai-eta-app'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: 'latest'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)'
+    artifact: 'k8sconfigfiles'
+    publishLocation: 'pipeline'
+
+- task: CopyFilesOverSSH@0
+  inputs:
+    sshEndpoint: 'km1'
+    sourceFolder: '$(System.DefaultWorkingDirectory)'
+    contents: '**/kubedeploy.yaml'
+    targetFolder: '/home/devopsadmin1'
+    readyTimeout: '20000'
+
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'km1'
+    runOptions: 'commands'
+    commands: 'kubectl apply -f kubedeploy.yaml'
+    readyTimeout: '20000'
+
+
+Namespace :
+
+	-> It is a logical partition of kubernetes cluster 
+	
+		-> DEV/QA/UAT 
+		
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loksai-eta-deploy
+  namespace: qa
+  labels:
+    app: loksai-eta-deploy-lbl
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: loksai-eta-app
+  template:
+    metadata:
+      labels:
+        app: loksai-eta-app
+    spec:
+      containers:
+      - name: loksai-eta-container
+        image: loksaieta/loksai-eta-app
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loksai-eta-np-service
+  namespace: qa
+  labels:
+    app: loksai-eta-app
+spec:
+  selector:
+    app: loksai-eta-deploy-lbl
+
+  type: NodePort
+  ports:
+  - nodePort: 30001
+    port: 8080
+    targetPort: 8080
